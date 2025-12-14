@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -70,7 +69,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'src.urls'
 
-TEMPLATES = [
+TEMPLATES = [ # You can delete this, you don't use templates on this project
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
@@ -126,27 +125,28 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-    ]
-
-STATIC_ROOT = BASE_DIR / 'static_files'
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+if DEBUG:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    
+
+
+if DEBUG:
+    MEDIA_URL = 'media/'
+else:
+    MEDIA_URL = env('MEDIA_URL')
 
 MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = 'media/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -160,7 +160,7 @@ if DEBUG == False: # On production hide DRF browseable API
         'rest_framework.renderers.JSONRenderer',
     ]
 
-CORS_ALLOWED_ORIGINS = [f'{EMAIL_FRONTEND_PROTOCOL}://{EMAIL_FRONTEND_DOMAIN}:{EMAIL_FRONTEND_PORT}']
+CORS_ALLOWED_ORIGINS = [f'{EMAIL_FRONTEND_PROTOCOL}://{EMAIL_FRONTEND_DOMAIN}']
 
 DJOSER = {
     'TOKEN_MODEL': None,
