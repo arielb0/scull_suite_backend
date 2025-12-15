@@ -3,8 +3,7 @@
 ## Description
 
 Scull Suite Backend is a project that show programming skills developing 
-applications that reside on server and exposes an Representational 
-State Transfer (REST) Application Programming Interface (API) interface.
+applications that reside on server and exposes an REST API.
 
 ## Applications
 
@@ -14,11 +13,33 @@ modify account data.
 - **Recipes:** Web applications to manage cook recipes. It uses authentication and permissions
 to decide who access or modify recipes entities.
 
+## Key Learnings
+
+- Design and manage a data persistence layer using an ORM.
+- Best practices to organize backend code using a layered architecture, separation of concerns and modular design.
+- Deploy a production-ready application, separating the application server from HTTP handling.
+- Design, document and expose RESTful API endpoints.
+- Apply JWT-based authentication in stateless API.
+- Manage sensitive information using environment variables.
+
+## Technology Stack
+
+- PostgreSQL
+- Python
+- Django
+- DRF
+- djangorestframework_simplejwt
+- djoser
+- Gunicorn
+- Nginx
+- GNU/Linux (Debian)
+- Visual Studio Code
+
 ## Architecture
 
 - **urls:** Routing layer. Associate (mapping) a viewsets with a URL.
 
-- **views (viewsets):**: Orchestration layer. Manage HTTP request, apply 
+- **views (viewsets):** Orchestration layer. Manage HTTP request, apply 
 authentication, permissions, business logic and return a HTTP response.
 
 - **services**: Business layer. Define the logic of application, like 
@@ -31,19 +52,6 @@ and vice versa, validate inputs and format output.
 - **models:**: Persistence layer. Define data schema, relations, queries 
 and interact with database using Django Object Relational Management (ORM).
 
-## Technology Stack
-
-- PostgreSQL
-- Python
-- Django
-- Django REST Framework (DRF)
-- Nginx
-- Gunicorn
-- djangorestframework_simplejwt
-- djoser
-- GNU/Linux (Debian)
-- Visual Studio Code
-
 ## Deployment (Production)
 
 The service runs on GNU/Linux environment, using PostgreSQL as database to
@@ -51,11 +59,6 @@ persist data, Nginx as HTTP server to serve static content and
 Gunicorn as application server to translate HTTP request and responses 
 to Python based application, like Django/DRF.
 
-## Improvements
-
-On more complex applications, separate business logic on "services" 
-module. This technical choice allow desacoplate views, serializers 
-and logic.
 
 ## Technical decisions
 
@@ -93,7 +96,7 @@ but requires learning new frameworks or are less seamless with Django.
 The trade-off of DRF is add extra layer of abstraction over Django views.
 
 - **Nginx:** Offer high performance, scalability, without consume excessive resources.
-Is a good option to manage static files, caching them and apply SSL certificates. Allow
+Is a good option to serve static files, caching them and apply SSL certificates. Allow
 future horizontal scaling with minimal configuration. Also has a great documentation. Other
 alternatives are Apache HTTP Server and Caddy/Lighttpd, but are heavier for concurrent connections
 and has smaller community for production grade Python applications.
@@ -109,6 +112,12 @@ numbers based on traffic and resources.
 offer more simplicity, is fully compatible with SPA clients and offer horizontal 
 scalability. The trade-off are the storage of tokens and how to expire them.
 
-- **English Language:** The document is aimed at international developers 
-and recruiters, and English is the de facto language for communication 
+- **English:** The document is aimed at international developers 
+and recruiters and English is the de facto language for communication 
 in the industry.
+
+## Improvements
+
+On more complex applications, separate business logic on "services" 
+module. This technical choice allow deacoplate views, serializers 
+and logic.
