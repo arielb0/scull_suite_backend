@@ -16,7 +16,7 @@ to decide who access or modify recipes entities.
 ## Key Learnings
 
 - Design and manage a data persistence layer using an ORM.
-- Best practices to organize backend code using a layered architecture, separation of concerns and modular design.
+- Apply best practices to organize backend code using a layered architecture, separation of concerns and modular design.
 - Deploy a production-ready application, separating the application server from HTTP handling.
 - Design, document and expose RESTful API endpoints.
 - Apply JWT-based authentication in stateless API.
@@ -58,7 +58,6 @@ The service runs on GNU/Linux environment, using PostgreSQL as database to
 persist data, Nginx as HTTP server to serve static content and 
 Gunicorn as application server to translate HTTP request and responses 
 to Python based application, like Django/DRF.
-
 
 ## Technical decisions
 
