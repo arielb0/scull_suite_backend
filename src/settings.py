@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles', # Useful to serve DRF admin static files
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'drf_spectacular',
     'recipes',
+    'wimm',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +71,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'src.urls'
 
-TEMPLATES = [ # You can delete this, you don't use templates on this project
+TEMPLATES = [ # You can delete this, you don't use templates on this project. Only valid on production..
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
@@ -146,6 +148,8 @@ if DEBUG:
 else:
     MEDIA_URL = env('MEDIA_URL')
 
+STATIC_URL = 'static/'
+
 MEDIA_ROOT = BASE_DIR / 'media'
 
 REST_FRAMEWORK = {
@@ -155,12 +159,13 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-if DEBUG == False: # On production hide DRF browseable API
+if not DEBUG: # On production hide DRF browseable API
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         'rest_framework.renderers.JSONRenderer',
     ]
 
-CORS_ALLOWED_ORIGINS = [f'{EMAIL_FRONTEND_PROTOCOL}://{EMAIL_FRONTEND_DOMAIN}']
+
+CORS_ALLOWED_ORIGINS = [f'{EMAIL_FRONTEND_PROTOCOL}://{EMAIL_FRONTEND_DOMAIN}:{EMAIL_FRONTEND_PORT}']
 
 DJOSER = {
     'TOKEN_MODEL': None,

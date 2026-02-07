@@ -26,6 +26,7 @@ urlpatterns = [
     path('schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
     path('', include('recipes.urls')),
+    path('wimm/', include('wimm.urls')),
 ] 
 
 if settings.DEBUG:
