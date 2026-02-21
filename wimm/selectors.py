@@ -6,7 +6,6 @@ from django.db.models import Sum, OuterRef, DecimalField, Subquery
 from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
 
-
 def get_total_amount(user: User) -> Decimal:
     debited = Subquery(Transaction.objects.filter(source_account=OuterRef('id')).\
                    values('source_account').annotate(debited=Sum('amount')).\

@@ -7,8 +7,8 @@ from datetime import datetime
 def apply_budget(user: User, source_account: Account):
     if source_account.amount == 0:
         raise Exception('Source account must have a valid amount greater than zero.')
-    if get_total_budget(user) != 100:
-        raise Exception(f'Budget is not equal to 100%. The actual value is {get_total_budget(user)}%')
+    if get_total_budget(user) != 1:
+        raise Exception(f'Budget is not equal to 100%. The actual value is {get_total_budget(user * 100)}%')
 
     accounts = Account.objects.filter(budget_percentage__gt=0).exclude(pk=source_account.pk)
     source_account_amount = source_account.amount
@@ -20,10 +20,10 @@ def apply_budget(user: User, source_account: Account):
             Transaction(
                 user = user,
                 timestamp = datetime.now(),
-                amount = source_account_amount * account.budget_percentage / 100,
+                amount = source_account_amount * account.budget_percentage,
                 source_account = source_account,
                 destination_account = account,
-                description = f'Moved the {account.budget_percentage}% from "{source_account.name}" to "{account.name}".'
+                description = f'Moved the {account.budget_percentage * 100}% from "{source_account.name}" to "{account.name}".'
             )
         )
 
