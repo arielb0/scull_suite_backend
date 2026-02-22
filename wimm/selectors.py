@@ -1,10 +1,10 @@
 from decimal import Decimal
-
 from wimm.serializers import AccountSerializer, TransactionSerializer
 from .models import Account, Summary, Transaction
 from django.db.models import Sum, OuterRef, DecimalField, Subquery
 from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
+
 
 def get_total_amount(user: User) -> Decimal:
     debited = Subquery(Transaction.objects.filter(source_account=OuterRef('id')).\
@@ -44,5 +44,5 @@ def get_last_transactions(user: User):
 
 def get_accounts(user: User):
     accounts = Account.objects.filter(user=user, include_on_summary_section=True)
-    serializer = AccountSerializer(accounts, many=True) # Create a AccountSummarySerializer
+    serializer = AccountSerializer(accounts, many=True)
     return serializer.data
