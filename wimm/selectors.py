@@ -7,18 +7,18 @@ from django.contrib.auth.models import User
 
 
 def get_total_amount(user: User) -> Decimal:
-    debited = Subquery(Transaction.objects.filter(source_account=OuterRef('id')).\
+    debited = Subquery(Transaction.objects.filter(user=user, source_account=OuterRef('id')).\
                    values('source_account').annotate(debited=Sum('amount')).\
                    values('debited'))
     
-    credited = Subquery(Transaction.objects.filter(destination_account=OuterRef('id')).\
+    credited = Subquery(Transaction.objects.filter(user=user, destination_account=OuterRef('id')).\
                     values('destination_account').annotate(credited=Sum('amount')).\
                     values('credited'))
     
     total = 0
 
     # Include user on filters.. , user=user
-    account_amounts = Account.objects.filter(include_on_total_amount=True).\
+    account_amounts = Account.objects.filter(user=user, include_on_total_amount=True).\
                             annotate(amount=(Coalesce(Sum(credited), 0, output_field=DecimalField()) - Coalesce(Sum(debited), 0, output_field=DecimalField()))).\
                             values('amount')
     
@@ -29,7 +29,7 @@ def get_total_amount(user: User) -> Decimal:
 
 
 def get_total_budget(user: User) -> Decimal:
-    return Account.objects.aggregate(Sum('budget_percentage', output_field=DecimalField()))['budget_percentage__sum']
+    return Account.objects.filter(user=user).aggregate(Sum('budget_percentage', output_field=DecimalField()))['budget_percentage__sum']
 
 
 def get_summary(user: User, account: int):

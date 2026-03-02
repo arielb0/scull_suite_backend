@@ -12,7 +12,7 @@ class Account(models.Model):
     name = models.CharField(max_length = 255)
     goal_description = models.TextField()
     goal_amount = models.DecimalField(max_digits = 9, decimal_places = 2)
-    budget_percentage = models.DecimalField(max_digits = 5, decimal_places = 2)
+    budget_percentage = models.DecimalField(max_digits = 5, decimal_places = 3)
     include_on_summary_section = models.BooleanField()
     include_on_total_amount = models.BooleanField()
     color = models.IntegerField()

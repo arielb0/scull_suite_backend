@@ -10,12 +10,11 @@ def apply_budget(user: User, source_account: Account):
     if get_total_budget(user) != 1:
         raise Exception(f'Budget is not equal to 100%. The actual value is {get_total_budget(user * 100)}%')
 
-    accounts = Account.objects.filter(budget_percentage__gt=0).exclude(pk=source_account.pk)
+    accounts = Account.objects.filter(user=user, budget_percentage__gt=0).exclude(pk=source_account.pk)
     source_account_amount = source_account.amount
     transactions = []
 
     for account in accounts:
-        
         transactions.append(
             Transaction(
                 user = user,
